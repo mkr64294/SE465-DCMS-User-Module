@@ -16,29 +16,199 @@ $(function() {
 });
 
 import { Auth } from 'aws-amplify';
+import FormErrors from "../FormErrors";
+import Validate from "../utility/FormValidation";
 
-Auth.signUp({
-    username,
-    password,
-    attributes: {
-        email,          // optional
-        phone_number,   // optional - E.164 number convention
-        // other custom attributes 
-    },
-    validationData: []  //optional
-    })
-    .then(data => console.log(data))
-    .catch(err => console.log(err));
+class Register extends Component {
+  state = {
+    username: "",
+    password: "",
+    confirmpassword: "",
+	email: "",
+	fname: "",
+	lname: "",
+	phone_number: "",
+    errors: {
+      cognito: null,
+      blankfield: false,
+      passwordmatch: false
+    }
+  }
 
-// After retrieving the confirmation code from the user
-Auth.confirmSignUp(username, code, {
-    // Optional. Force user confirmation irrespective of existing alias. By default set to True.
-    forceAliasCreation: true    
-}).then(data => console.log(data))
-  .catch(err => console.log(err));
+  clearErrorState = () => {
+    this.setState({
+      errors: {
+        cognito: null,
+        blankfield: false,
+        passwordmatch: false
+      }
+    });
+  }
 
-Auth.resendSignUp(username).then(() => {
-    console.log('code resent successfully');
-}).catch(e => {
-    console.log(e);
-});
+  handleSubmit = async event => {
+    event.preventDefault();
+
+    // Form validation
+    this.clearErrorState();
+    const error = Validate(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error }
+      });
+    }
+
+	// AWS Cognito Integration
+    const { username, password, email, fname, lname, phone_number } = this.state;
+    try {
+      const signUpResponse = await Auth.signUp({
+        username,
+        password,
+        attributes: {
+		  email: email
+		  fname: fname
+		  lname: lname
+		  phone_number: phone_number
+        }
+      });
+      this.props.history.push("/welcome");
+      console.log(signUpResponse);
+    } catch (error) {
+      let err = null;
+      !error.message ? err = { "message": error } : err = error;
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          cognito: err
+        }
+      });
+    }
+  }
+
+  onInputChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+    document.getElementById(event.target.id).classList.remove("is-danger");
+  }
+
+ render() {
+    return (
+      <section className="section auth">
+        <div className="container">
+          <h1>Register</h1>
+          <FormErrors formerrors={this.state.errors} />
+
+          <form onSubmit={this.handleSubmit}>
+            <div className="field">
+              <p className="control">
+                <input 
+                  className="input" 
+                  type="text"
+                  id="username"
+                  aria-describedby="userNameHelp"
+                  placeholder="Enter username"
+                  value={this.state.username}
+                  onChange={this.onInputChange}
+                />
+              </p>
+            </div>
+            <div className="field">
+              <p className="control has-icons-left">
+                <input 
+                  className="input" 
+                  type="password"
+                  id="password"
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={this.onInputChange}
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-lock"></i>
+                </span>
+              </p>
+            </div>
+            <div className="field">
+              <p className="control has-icons-left">
+                <input 
+                  className="input" 
+                  type="password"
+                  id="confirmpassword"
+                  placeholder="Confirm password"
+                  value={this.state.confirmpassword}
+                  onChange={this.onInputChange}
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-lock"></i>
+                </span>
+              </p>
+            </div>
+            <div className="field">
+              <p className="control has-icons-left has-icons-right">
+                <input 
+                  className="input" 
+                  type="email"
+                  id="email"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email"
+                  value={this.state.email}
+                  onChange={this.onInputChange}
+                />
+                <span className="icon is-small is-left">
+                  <i className="fas fa-envelope"></i>
+                </span>
+              </p>
+            </div>
+            <div className="field">
+              <p className="control">
+                <input 
+                  className="input" 
+                  type="text"
+                  id="username"
+                  aria-describedby="firstNameHelp"
+                  placeholder="Enter first name"
+                  value={this.state.fname}
+                  onChange={this.onInputChange}
+                />
+              </p>
+            </div>
+            <div className="field">
+              <p className="control">
+                <input 
+                  className="input" 
+                  type="text"
+                  id="username"
+                  aria-describedby="lastNameHelp"
+                  placeholder="Enter last name"
+                  value={this.state.lname}
+                  onChange={this.onInputChange}
+                />
+              </p>
+            </div>
+            <div className="field">
+              <p className="control">
+                <input 
+                  className="input" 
+                  type="text"
+                  id="username"
+                  aria-describedby="numberHelp"
+                  placeholder="Enter phone number"
+                  value={this.state.phone_number}
+                  onChange={this.onInputChange}
+                />
+              </p>
+            </div>
+            <div className="field">
+              <p className="control">
+                <button className="button is-success">
+                  Register
+                </button>
+              </p>
+            </div>
+          </form>
+        </div>
+      </section>
+    );
+  }
+}
+
+export default Register;
