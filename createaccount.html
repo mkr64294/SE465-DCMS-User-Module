@@ -30,6 +30,14 @@
           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
           }
       </style>
+	  
+	  <script>
+			function CreateAccount(){
+				src = "createaccount.js"
+			}
+	  </script>
+	  
+	  
   </head>
 
 <body style="background-color:#ffg8f6;">
@@ -66,23 +74,23 @@
 		  
 		  <div id="rightThing" style="float: left; width:50%; text-align: left">
 		  <br>
-		  <input type = "text" id = "Username" />
+		  <input type = "text" id = "username" />
 		  <br><br><br>
-		  <input type = "password" id = "Password" />
+		  <input type = "password" id = "password" />
 		  <br><br><br>
-		  <input type = "password" id = "ConfirmPassword" />
+		  <input type = "password" id = "confirmPassword" />
 		  <br><br><br>
-		  <input type = "text" id = "Email" />
+		  <input type = "text" id = "email" />
 		  <br><br><br>
-		  <input type = "text" id = "Fname" />
+		  <input type = "text" id = "fname" />
 		  <br><br><br>
-		  <input type = "text" id = "Lname" />
+		  <input type = "text" id = "lname" />
 		  <br><br><br>
-		  <input type = "text" id = "Phone" /></div>
+		  <input type = "text" id = "phone_number" /></div>
 		  </div>
 		  <a style="font-size:14px">*Required</a>
 		  
-		  <a element onclick="CreateAccount" class="btn-11" href="home.html" name="CreateAccountBtn">Create Account</a> 
+		  <a element onclick="CreateAccount()" class="btn-11" href="logIn.html" name="CreateAccountBtn">Create Account</a> 
     
 
     <!-- Optional JavaScript -->

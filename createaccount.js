@@ -15,14 +15,32 @@ $(function() {
   $('[href=#]').click(function(){return false});
 });
 
+import FormErrors from "../FormErrors";
+import Validate from "../utility/FormValidation";
 import { Auth } from 'aws-amplify';
+
+class Register extends Component {
+  state = {
+    username: "",
+    password: "",
+    confirmpassword: "",
+	email: "",
+	fname: "",
+	lname: "",
+	phone_number: "",
+    errors: {
+      cognito: null,
+      blankfield: false,
+      passwordmatch: false
+    }
+  }
 
 Auth.signUp({
     username,
     password,
     attributes: {
-        email,          // optional
-        phone_number,   // optional - E.164 number convention
+        email: email,          // optional
+        phone_number: phone_number,   // optional - E.164 number convention
         // other custom attributes 
     },
     validationData: []  //optional
