@@ -30,6 +30,28 @@
           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
           }
       </style>
+	  
+	  <script>
+	import React from 'react';
+	import ReactDOM from 'react-dom';
+	import Amplify from 'aws-amplify';
+	import config from './config';
+	import * as serviceworker from './serviceworker';
+
+	Amplify.configure({
+		Auth: {
+			mandatorySignId: true,
+			region: config.cognito.REGION,
+			userPoolId: config.cognito.USER_POOL_ID,
+			userPoolWebClientID: config.cognito.APP_CLIENT_ID
+		}
+	});
+
+	ReactDOM.render(<App />, document.getElementById('root'));
+
+	serviceWorker.unregister();
+
+	  </script>
   </head>
 
 <body style="background-color:#ffs8f6;">
