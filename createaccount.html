@@ -32,9 +32,93 @@
       </style>
 	  
 	  <script>
-			function CreateAccount(){
-				src = "createaccount.js"
+			$(function() {
+  $('.btn-6')
+    .on('mouseenter', function(e) {
+			var parentOffset = $(this).offset(),
+      		relX = e.pageX - parentOffset.left,
+      		relY = e.pageY - parentOffset.top;
+			$(this).find('span').css({top:relY, left:relX})
+    })
+    .on('mouseout', function(e) {
+			var parentOffset = $(this).offset(),
+      		relX = e.pageX - parentOffset.left,
+      		relY = e.pageY - parentOffset.top;
+    	$(this).find('span').css({top:relY, left:relX})
+    });
+  $('[href=#]').click(function(){return false});
+});
+
+import React, { Component } from 'react';
+import FormErrors from "../FormErrors";
+import Validate from "../utility/FormValidation";
+import { Auth } from 'aws-amplify';
+
+class Register extends Component {
+  state = {
+    username: "",
+    email: "",
+    password: "",
+    confirmpassword: "",
+    errors: {
+      cognito: null,
+      blankfield: false,
+      passwordmatch: false
+    }
+  }
+
+  clearErrorState = () => {
+    this.setState({
+      errors: {
+        cognito: null,
+        blankfield: false,
+        passwordmatch: false
+      }
+    });
+  }
+
+  handleSubmit = async event => {
+    event.preventDefault();
+
+    // Form validation
+    this.clearErrorState();
+    const error = Validate(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error }
+      });
+    }
+
+    // AWS Cognito integration here
+	const{username, email, password} = this.state;
+	try{
+		const signUpResponse = await Auth.signUp({
+			username, 
+			password,
+			attribute: {
+				email: email
 			}
+		}
+	}catch(error){
+		let err = null;
+		!error.message ? err = { "message": error} : err = error;
+		this.state({
+			errors:{
+				...this.state.errors,
+				cognito: err
+				}
+			})
+		}
+	};
+
+  onInputChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+    document.getElementById(event.target.id).classList.remove("is-danger");
+  }
+
+export default Register;
 	  </script>
 	  
 	  

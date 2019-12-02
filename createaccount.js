@@ -18,6 +18,7 @@ $(function() {
 import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
 import { Auth } from 'aws-amplify';
+import
 
 class Register extends Component {
   state = {
