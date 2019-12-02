@@ -86,7 +86,7 @@
 		  </div>
 		  <a style="font-size:14px">*Required</a>
 		  
-		  <a element onclick="create()" class="btn-11" name="CreateAccountBtn">Create Account</a> 
+		  <a class="btn-11" id="CreateAccountBtn">Create Account</a> 
 		  
 	  <script>
 			$(function() {
@@ -106,13 +106,17 @@
   $('[href=#]').click(function(){return false});
 });
 
-import React, { Component } from 'react';
 import FormErrors from "../FormErrors";
 import Validate from "../utility/FormValidation";
-import { Auth } from 'aws-amplify';
+import { Auth } from "aws-amplify";
 
 class Register extends Component {
-  function create(){
+
+  var button = document.getElementByID("CreateAccountBtn");
+  
+  
+
+  button.onclick = function(){
   state = {
     username: "",
     email: "",
@@ -180,6 +184,10 @@ class Register extends Component {
   }
   
 }
+
+
+
+
 
 export default Register;
 	  </script>
