@@ -31,9 +31,66 @@
           }
       </style>
 	  
+
+	  
+	  
+  </head>
+
+<body style="background-color:#ffg8f6;">
+
+    <h1><span>Digital Content Management System</span></h1>
+	<h3><span>St. Cloud State University SE465</span></h3
+
+      <div class = "container">
+        <div class = "centered">
+          <alert><br>
+            
+        <br><br></alert>
+
+        </div>
+      </div>
+	  
+	  <h2 style="font-size:30px;"> Create New Account</h2>
+		  
+		  <div id="the whole thing" style="height:100%; width:100%; overflow: hidden;">
+		  <div id="leftThing" style="float: left; width:50%; text-align: right">
+		  <a style="font-size:24px">*Username: </a>
+		  <br>
+          <a style="font-size:24px">*Password: </a>
+		  <br>
+		  <a style="font-size:24px">*Confirm Password: </a>
+		  <br>
+		  <a style="font-size:24px">*Email Address: </a>
+		  <br>
+		  <a style="font-size:24px">*First Name: </a>
+		  <br>
+		  <a style="font-size:24px">*Last Name: </a>
+		  <br>
+		  <a style="font-size:24px">Phone Number: </a></div>
+		  
+		  <div id="rightThing" style="float: left; width:50%; text-align: left">
+		  <br>
+		  <input type = "text" id = "username" />
+		  <br><br><br>
+		  <input type = "password" id = "password" />
+		  <br><br><br>
+		  <input type = "password" id = "confirmPassword" />
+		  <br><br><br>
+		  <input type = "text" id = "email" />
+		  <br><br><br>
+		  <input type = "text" id = "fname" />
+		  <br><br><br>
+		  <input type = "text" id = "lname" />
+		  <br><br><br>
+		  <input type = "text" id = "phone_number" /></div>
+		  </div>
+		  <a style="font-size:14px">*Required</a>
+		  
+		  <a element onclick="function()" class="btn-11" href="logIn.html" name="CreateAccountBtn">Create Account</a> 
+		  
 	  <script>
 			$(function() {
-  $('.btn-6')
+  $('.btn-11')
     .on('mouseenter', function(e) {
 			var parentOffset = $(this).offset(),
       		relX = e.pageX - parentOffset.left,
@@ -95,14 +152,16 @@ class Register extends Component {
 		const signUpResponse = await Auth.signUp({
 			username, 
 			password,
-			attribute: {
+			attributes: {
 				email: email
 			}
-		}
+		});
+	console.log(signUpResponse);
+	this.props.history.push("/home.html");
 	}catch(error){
 		let err = null;
 		!error.message ? err = { "message": error} : err = error;
-		this.state({
+		this.setState({
 			errors:{
 				...this.state.errors,
 				cognito: err
@@ -120,61 +179,6 @@ class Register extends Component {
 
 export default Register;
 	  </script>
-	  
-	  
-  </head>
-
-<body style="background-color:#ffg8f6;">
-
-    <h1><span>Digital Content Management System</span></h1>
-	<h3><span>St. Cloud State University SE465</span></h3
-
-      <div class = "container">
-        <div class = "centered">
-          <alert><br>
-            
-        <br><br></alert>
-
-        </div>
-      </div>
-	  
-	  <h2 style="font-size:30px;"> Create New Account</h2>
-		  
-		  <div id="the whole thing" style="height:100%; width:100%; overflow: hidden;">
-		  <div id="leftThing" style="float: left; width:50%; text-align: right">
-		  <a style="font-size:24px">*Username: </a>
-		  <br>
-          <a style="font-size:24px">*Password: </a>
-		  <br>
-		  <a style="font-size:24px">*Confirm Password: </a>
-		  <br>
-		  <a style="font-size:24px">*Email Address: </a>
-		  <br>
-		  <a style="font-size:24px">*First Name: </a>
-		  <br>
-		  <a style="font-size:24px">*Last Name: </a>
-		  <br>
-		  <a style="font-size:24px">Phone Number: </a></div>
-		  
-		  <div id="rightThing" style="float: left; width:50%; text-align: left">
-		  <br>
-		  <input type = "text" id = "username" />
-		  <br><br><br>
-		  <input type = "password" id = "password" />
-		  <br><br><br>
-		  <input type = "password" id = "confirmPassword" />
-		  <br><br><br>
-		  <input type = "text" id = "email" />
-		  <br><br><br>
-		  <input type = "text" id = "fname" />
-		  <br><br><br>
-		  <input type = "text" id = "lname" />
-		  <br><br><br>
-		  <input type = "text" id = "phone_number" /></div>
-		  </div>
-		  <a style="font-size:14px">*Required</a>
-		  
-		  <a element onclick="CreateAccount()" class="btn-11" href="logIn.html" name="CreateAccountBtn">Create Account</a> 
     
 
     <!-- Optional JavaScript -->
