@@ -30,6 +30,72 @@
           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
           }
       </style>
+	  
+	  <script>
+import FormErrors from "../FormErrors";
+import Validate from "../utility/FormValidation";
+import { Auth } from "aws-amplify";
+
+class LogIn extends Component {
+  state = {
+    username: "",
+    password: "",
+    errors: {
+      cognito: null,
+      blankfield: false
+    }
+  };
+
+  clearErrorState = () => {
+    this.setState({
+      errors: {
+        cognito: null,
+        blankfield: false
+      }
+    });
+  };
+
+  handleSubmit = async event => {
+    event.preventDefault();
+
+    // Form validation
+    this.clearErrorState();
+    const error = Validate(event, this.state);
+    if (error) {
+      this.setState({
+        errors: { ...this.state.errors, ...error }
+      });
+    }
+
+    // AWS Cognito integration here
+		const{username, email, password} = this.state;
+	try{
+		const user = await Auth.signIn(this.state.username, this.state.password);
+	console.log(user);
+	this.props.history.push("/");
+	}catch(error){
+		let err = null;
+		!error.message ? err = { "message": error} : err = error;
+		this.setState({
+			errors:{
+				...this.state.errors,
+				cognito: err
+				}
+			})
+		}
+	};
+  };
+
+  onInputChange = event => {
+    this.setState({
+      [event.target.id]: event.target.value
+    });
+    document.getElementById(event.target.id).classList.remove("is-danger");
+  };
+}
+
+export default LogIn;
+	  </script>
   </head>
 
 <body style="background-color:#ffg8f6;">
