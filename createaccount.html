@@ -86,7 +86,7 @@
 		  </div>
 		  <a style="font-size:14px">*Required</a>
 		  
-		  <a element onclick="function()" class="btn-11" href="logIn.html" name="CreateAccountBtn">Create Account</a> 
+		  <a element onclick="create()" class="btn-11" name="CreateAccountBtn">Create Account</a> 
 		  
 	  <script>
 			$(function() {
@@ -112,6 +112,7 @@ import Validate from "../utility/FormValidation";
 import { Auth } from 'aws-amplify';
 
 class Register extends Component {
+  function create(){
   state = {
     username: "",
     email: "",
@@ -176,6 +177,9 @@ class Register extends Component {
     });
     document.getElementById(event.target.id).classList.remove("is-danger");
   }
+  }
+  
+}
 
 export default Register;
 	  </script>
